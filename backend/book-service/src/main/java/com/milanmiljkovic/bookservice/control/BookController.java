@@ -1,5 +1,6 @@
 package com.milanmiljkovic.bookservice.control;
 
+import com.milanmiljkovic.bookservice.model.SearchResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,8 +22,8 @@ public class BookController {
     }
 
     @GetMapping("all-books")
-    public Mono<String> allBooks() {
-        Mono<String> nesto = this.webClient.get().uri("?q=mistborn").retrieve().bodyToMono(String.class);
+    public Mono<SearchResult> allBooks() {
+        Mono<SearchResult> nesto = this.webClient.get().uri("?q=mistborn").retrieve().bodyToMono(SearchResult.class);
 //        System.out.println(nesto);
         return nesto;
     }
