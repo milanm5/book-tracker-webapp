@@ -1,8 +1,8 @@
 package com.milanmiljkovic.bookservice.control;
 
 import com.milanmiljkovic.bookservice.model.SearchResult;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -16,16 +16,9 @@ public class BookController {
         this.webClient = webClientBuilder.baseUrl("http://openlibrary.org/search.json").build();
     }
 
-    @GetMapping("hello")
-    public String hello() {
-        return "Hello book";
-    }
-
-    @GetMapping("all-books")
-    public Mono<SearchResult> allBooks() {
-        Mono<SearchResult> nesto = this.webClient.get().uri("?q=mistborn").retrieve().bodyToMono(SearchResult.class);
-//        System.out.println(nesto);
-        return nesto;
+    @GetMapping("search")
+    public Mono<SearchResult> search(@RequestParam(name ="q") String searchQuery) {
+        return this.webClient.get().uri("?q="+searchQuery).retrieve().bodyToMono(SearchResult.class);
     }
 
 
