@@ -1,11 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, inject, Injectable } from '@angular/core';
+import { SearchResultService } from '../../services/search-result.service';
+import { routes } from '../../app.routes';
+import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-header',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
+@Injectable({providedIn: "root"})
 export class HeaderComponent {
+
+  private searchResultService = inject(SearchResultService);
+  private router = inject(Router);
+  query = "";
+
+  SearchQuery(query: string) {
+    this.router.navigate(["/searchResult"], {
+      queryParams: {q: this.query}
+    });
+  }
 
 }
