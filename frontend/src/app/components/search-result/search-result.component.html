@@ -1,0 +1,8 @@
+<ul>
+  @if(searchResult$ | async; as searchResult) {
+    <p>Books found: {{searchResult.numFound}}</p>
+    @for(book of searchResult.docs; track book.title) {
+    <li>{{book.title}}, {{book.author_name}}</li>
+    }
+  }
+</ul>
