@@ -18,7 +18,13 @@ public class BookController {
 
     @GetMapping("search")
     public Mono<SearchResult> search(@RequestParam(name ="q") String searchQuery) {
-        return this.webClient.get().uri("?q="+searchQuery).retrieve().bodyToMono(SearchResult.class);
+
+        String query = searchQuery.replaceAll(" ", "+");
+
+        return this.webClient.get().uri(uriBuilder -> uriBuilder
+                .queryParam("q", query)
+                .queryParam("limit", 25)
+                .build()).retrieve().bodyToMono(SearchResult.class);
     }
 
 
