@@ -1,5 +1,4 @@
 import { Component, inject, Injectable } from '@angular/core';
-import { SearchResultService } from '../../services/search-result.service';
 import { routes } from '../../app.routes';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -13,11 +12,10 @@ import { FormsModule } from '@angular/forms';
 @Injectable({providedIn: "root"})
 export class HeaderComponent {
 
-  private searchResultService = inject(SearchResultService);
   private router = inject(Router);
-  query = "";
+  public query = "";
 
-  SearchQuery(query: string) {
+  public SearchQuery(query: string) {
     this.router.navigate(["/searchResult"], {
       queryParams: {q: this.query}
     });
