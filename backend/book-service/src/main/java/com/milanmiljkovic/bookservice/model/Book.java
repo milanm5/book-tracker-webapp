@@ -2,12 +2,25 @@ package com.milanmiljkovic.bookservice.model;
 
 public class Book {
 
+
+    private String key;
     private String title;
     private String[] author_name;
+    private String cover_i;
 
-    public Book(String title, String[] author_name) {
+    public Book(String key, String title, String[] author_name, String cover_i) {
+        this.key = key;
         this.title = title;
         this.author_name = author_name;
+        this.cover_i = cover_i;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getTitle() {
@@ -24,5 +37,13 @@ public class Book {
 
     public void setAuthor_name(String[] author_name) {
         this.author_name = author_name;
+    }
+
+    public String getCover_i() {
+        return cover_i;
+    }
+
+    public void setCover_i(String cover_i) {
+        this.cover_i = cover_i;
     }
 }
