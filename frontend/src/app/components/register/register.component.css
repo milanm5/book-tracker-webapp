@@ -7,3 +7,10 @@
     width: 50rem;
     margin: 0 auto;
 }
+
+.alert {
+    display: flex;
+    justify-content: space-between;
+    width: 20rem;
+    margin: 0 auto;
+}
