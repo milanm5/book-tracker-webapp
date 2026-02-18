@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { User } from '../../model/user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -13,6 +14,8 @@ import { User } from '../../model/user';
 export class RegisterComponent {
 
   private userService = inject(UserService);
+  private router = inject(Router);
+  protected message: String | null = null;
 
   protected registerForm = new FormGroup({
     password: new FormControl(''),
@@ -21,13 +24,21 @@ export class RegisterComponent {
   })
 
   onSubmit() {
-
     const request: User = {
       password: this.registerForm.value.password!,
       username: this.registerForm.value.username!,
       email: this.registerForm.value.email!
     };
 
-    this.userService.register(request);
+    this.userService.register(request).subscribe({
+      next: res => {
+        console.log("Registered!");
+        this.router.navigate(["/login"]);
+      },
+      error: err => { 
+        console.error(err);
+        this.message = "Email already exists";
+      }
+    });
   }
 }
