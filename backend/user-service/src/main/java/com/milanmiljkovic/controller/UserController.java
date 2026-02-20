@@ -1,6 +1,8 @@
-package com.milanmiljkovic.control;
+package com.milanmiljkovic.controller;
 
+import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,7 +14,7 @@ import com.milanmiljkovic.model.User;
 import com.milanmiljkovic.service.UserService;
 
 @RestController
-public class UserControl {
+public class UserController {
 		
 	@Autowired
 	private UserService userService;
@@ -23,9 +25,9 @@ public class UserControl {
 	}
 
 	@PostMapping("/register")
-	public String register(@RequestBody User userToRegister) throws EmailExistsException, UsernameExistsException {
+	public ResponseEntity<String> register(@RequestBody User userToRegister) throws EmailExistsException, UsernameExistsException {
 			this.userService.register(userToRegister);		
-			return "Email already exists";
+			return ResponseEntity.status(HttpStatus.SC_CREATED).build();
 	}
 	
 	@GetMapping("/login")
