@@ -8,25 +8,25 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.milanmiljkovic.service.CustomUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig{
-
+	
 	@Bean
-	SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationProvider authenticationProvider) {
+	SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationProvider authenticationProvider, JwtFilter jwtFilter) {
 		return http
-			.authorizeHttpRequests((requests) -> requests.anyRequest().permitAll())
-			.authenticationProvider(authenticationProvider)
+			.authorizeHttpRequests((request) -> request.anyRequest().permitAll())
 			.csrf(csrf -> csrf.disable())
-			.build();		
+			.authenticationProvider(authenticationProvider)
+			.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+			.build();
 	}
 
 	@Bean
@@ -41,7 +41,7 @@ public class SecurityConfig{
 	
 	@Bean
 	AuthenticationProvider authenticationProvider(
-			UserDetailsService userDetailsService, PasswordEncoder encoder) {
+			CustomUserDetailsService userDetailsService, PasswordEncoder encoder) {
 		
 		DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
 		provider.setPasswordEncoder(encoder);
