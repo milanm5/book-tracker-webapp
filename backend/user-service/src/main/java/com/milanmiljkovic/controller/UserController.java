@@ -20,7 +20,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@GetMapping("/")
+	@GetMapping("/hello")
 	public String greeting() {
 		return "Hello World";
 	}
