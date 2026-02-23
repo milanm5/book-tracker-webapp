@@ -30,12 +30,12 @@ public class JwtFilter extends OncePerRequestFilter{
 	private ApplicationContext context;
 	
 	@Autowired
-	private UserDetailsService userDetailsService;
+	private CustomUserDetailsService userDetailsService;
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-
+				
 		String authHeader = request.getHeader("Authorization");
 		String token = null;
 		String username = null;
