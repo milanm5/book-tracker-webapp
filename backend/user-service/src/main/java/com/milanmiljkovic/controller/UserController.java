@@ -8,9 +8,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.milanmiljkovic.dto.AuthRequest;
+import com.milanmiljkovic.dto.AuthResponse;
 import com.milanmiljkovic.exception.EmailExistsException;
 import com.milanmiljkovic.exception.UsernameExistsException;
-import com.milanmiljkovic.model.User;
 import com.milanmiljkovic.service.UserService;
 
 @RestController
@@ -25,15 +26,14 @@ public class UserController {
 	}
 
 	@PostMapping("/register")
-	public ResponseEntity<String> register(@RequestBody User userToRegister) throws EmailExistsException, UsernameExistsException {
-			this.userService.register(userToRegister);		
+	public ResponseEntity<Void> register(@RequestBody AuthRequest authRequest) throws EmailExistsException, UsernameExistsException {
+			this.userService.register(authRequest);		
 			return ResponseEntity.status(HttpStatus.SC_CREATED).build();
 	}
 	
-	@GetMapping("/login")
-	public String login(@RequestBody User userToLogin) {
-		
-		return "Successfully logged in";
+	@PostMapping("/login")
+	public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest userToLogin) {
+		return ResponseEntity.ok(new AuthResponse(this.userService.login(userToLogin)));
 	}
 
 }
