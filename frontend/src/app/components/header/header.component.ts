@@ -17,7 +17,9 @@ export class HeaderComponent {
 
   public SearchQuery(query: string) {
     this.router.navigate(["/searchResult"], {
-      queryParams: {q: this.query}
+      queryParams: {
+        q: this.query,
+        page: 1}
     });
   }
 
