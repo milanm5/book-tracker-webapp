@@ -14,9 +14,9 @@ export class SearchResultService {
   constructor() { 
   }
 
-  public searchBooks(query: string): Observable<SearchResult> {
+  public searchBooks(query: string, page: number): Observable<SearchResult> {
     return this.http.get<SearchResult>(this.api, {
-      params: new HttpParams().append("q", query)
+      params: new HttpParams().append("q", query).append("page", page)
     });
   }
 
