@@ -9,15 +9,16 @@ import { Observable } from 'rxjs';
 export class UserService {
 
   private http = inject(HttpClient);
-  private api = "http://localhost:8081/register"
+  private registerApi = "http://localhost:8081/register"
+  private loginApi = "http://localhost:8081/login"
 
   constructor() { }
 
   register(registerData: User): Observable<any> {
-    return this.http.post(this.api, registerData);
+    return this.http.post(this.registerApi, registerData);
   }
 
-  login() {
-    
+  login(loginData: User) {
+    return this.http.post(this.loginApi, loginData);
   }
 }
