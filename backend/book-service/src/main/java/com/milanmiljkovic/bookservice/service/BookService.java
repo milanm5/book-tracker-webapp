@@ -20,6 +20,8 @@ public class BookService {
 		
 		return this.webClient.get().uri(uriBuilder -> uriBuilder
 				.queryParam("q", query)
+				.queryParam("lang", "en")
+				.queryParam("fields", "key,cover_i,title,author_name,editions")
 				.queryParam("offset", page * 5)
 				.queryParam("limit", 5)
 				.build()).retrieve().bodyToMono(SearchResult.class);

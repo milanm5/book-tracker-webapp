@@ -17,10 +17,7 @@ public class BookController {
 	
     @GetMapping("search")
     public Mono<SearchResult> search(@RequestParam(name ="q") String searchQuery, @RequestParam int page) {
-
-        String query = searchQuery.replaceAll(" ", "+");
-
-        return this.bookService.search(query, page);
+        return this.bookService.search(searchQuery, page);
     }
 
 
