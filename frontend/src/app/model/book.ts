@@ -1,3 +1,5 @@
+import { Edition } from "./edition";
+
 export class Book {
 
     constructor(
@@ -5,5 +7,6 @@ export class Book {
         public title: string,
         public author_name: string[],
         public cover_i: string,
+        public editions: Edition
     ) {}
 }
