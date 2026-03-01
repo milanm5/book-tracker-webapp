@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { SearchResult } from '../../model/search-result';
 import { AsyncPipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Book } from '../../model/book';
 
 @Component({
   selector: 'app-search-result',
@@ -23,5 +24,10 @@ export class SearchResultComponent {
     this.route.queryParams.subscribe(params => {
       this.searchResult$ = this.searchResultService.searchBooks(params["q"], params["page"] - 1);
     })
+  }
+
+  getCoverUrl(book: Book): string {
+    const coverId = book.editions.docs.at(0)?.cover_i;
+    return coverId ? "https://covers.openlibrary.org/b/id/" + coverId + '-M.jpg' : "images/no_cover_img.jpg";
   }
 }
