@@ -19,8 +19,7 @@ public class BookService {
 	public Mono<SearchResult> search(String query, int page) {
 		
 		return this.webClient.get().uri(uriBuilder -> uriBuilder
-				.queryParam("q", query)
-				.queryParam("lang", "en")
+				.queryParam("q", query + " language:eng")
 				.queryParam("fields", "key,cover_i,title,author_name,editions")
 				.queryParam("offset", page * 5)
 				.queryParam("limit", 5)
