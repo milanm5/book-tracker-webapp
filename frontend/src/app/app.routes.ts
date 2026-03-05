@@ -5,8 +5,8 @@ import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 
 export const routes: Routes = [
-    {path:"searchResult", component: SearchResultComponent},
-    {path:"register", component: RegisterComponent},
-    {path:"login", component: LoginComponent},
-    {path:"home", component: HomeComponent}
+    {path:"searchResult", component: SearchResultComponent, title:"Search"},
+    {path:"register", component: RegisterComponent, title:"Register"},
+    {path:"login", component: LoginComponent, title:"Login"},
+    {path:"home", component: HomeComponent, title:"Home"}
 ];
