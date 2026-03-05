@@ -6,9 +6,9 @@ package com.milanmiljkovic.bookservice.model;
 public class Edition {
 	
 	private int numFound;
-	private Book[] docs;
+	private EditionDoc[] docs;
 
-	public Edition(int numFound, Book[] docs) {
+	public Edition(int numFound, EditionDoc[] docs) {
 		this.numFound = numFound;
 		this.docs = docs;
 	}
@@ -21,11 +21,11 @@ public class Edition {
 		this.numFound = numFound;
 	}
 	
-	public Book[] getDocs() {
+	public EditionDoc[] getDocs() {
 		return docs;
 	}
 
-	public void setDocs(Book[] docs) {
+	public void setDocs(EditionDoc[] docs) {
 		this.docs = docs;
 	}
 	
