@@ -1,14 +1,13 @@
 import { Component, inject, Injectable } from '@angular/core';
 import { SearchResultService } from '../../services/search-result.service';
-import { Observable } from 'rxjs';
 import { SearchResult } from '../../model/search-result';
-import { AsyncPipe } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { NgClass } from '@angular/common';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Book } from '../../model/book';
 
 @Component({
   selector: 'app-search-result',
-  imports: [AsyncPipe, RouterLink],
+  imports: [RouterLink, NgClass],
   templateUrl: './search-result.component.html',
   styleUrl: './search-result.component.css'
 })
@@ -17,17 +16,60 @@ import { Book } from '../../model/book';
 export class SearchResultComponent {
 
   private searchResultService = inject(SearchResultService);
-  public searchResult$ = new Observable<SearchResult>;
   private route = inject(ActivatedRoute);
+  router = inject(Router);
+  searchResult!: SearchResult;
+  searchQuery!: string;
+  prevClasses!: {[key: string]: boolean}
+  nextClasses!: {[key: string]: boolean}
+  totalPages = 0;
+  startPage = 0;
+  endPage = 0;
+  currentPage: number = 1;
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      this.searchResult$ = this.searchResultService.searchBooks(params["q"], params["page"] - 1);
-    })
+      this.currentPage = Number(params["page"]);
+      this.searchQuery = params["q"];
+      
+      this.searchResultService.searchBooks(this.searchQuery, this.currentPage - 1).subscribe(
+        result => {
+          this.searchResult = result;
+          
+          this.totalPages = Math.ceil(this.searchResult.numFound / 5);
+          this.endPage = this.totalPages;
+          
+          this.prevClasses = {
+            "disabled": this.currentPage == 1
+          };
+    
+          this.nextClasses = {
+            "disabled": this.currentPage == this.endPage 
+          };
+        });
+    
+    });
+    
   }
 
   getCoverUrl(book: Book): string {
     const coverId = book.editions.docs.at(0)?.cover_i;
-    return coverId ? "https://covers.openlibrary.org/b/id/" + coverId + '-M.jpg' : "images/no_cover_img.jpg";
+    return coverId ? "https://covers.openlibrary.org/b/id/" + coverId + "-M.jpg" : "images/no_cover_img.jpg";
+  }
+
+  previousPage() {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {page: this.currentPage - 1},
+      queryParamsHandling: "merge"
+    })
+  }
+
+  nextPage() {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {page: this.currentPage + 1},
+      queryParamsHandling: "merge"
+    })
   }
 }

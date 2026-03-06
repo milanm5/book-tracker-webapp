@@ -1,6 +1,6 @@
 <ul class="list-group">
-  @if(searchResult$ | async; as searchResult) {
-    <p>Books found: {{searchResult.numFound}}</p>
+  @if(searchResult) {
+    <p>Total number: {{searchResult.numFound}}</p>
     @for(book of searchResult.docs; track book.key) {
       <li class="list-group-item">
         <div class="d-flex justify-content-start ">
@@ -10,5 +10,14 @@
         </div>
       </li>
     }
+    <nav>
+      <ul class="pagination">
+        <li class="page-item" [ngClass]="prevClasses"><button class="page-link" (click)="previousPage()">Previous</button></li>
+        <li class="page-item"><button class="page-link">1</button></li>
+        <li class="page-item"><button class="page-link">2</button></li>
+        <li class="page-item"><button class="page-link">3</button></li>
+        <li class="page-item" [ngClass]="nextClasses"><button class="page-link" (click)="nextPage()">Next</button></li>
+      </ul>
+    </nav>
   }
 </ul>
