@@ -25,6 +25,9 @@ export class SearchResultComponent {
   totalPages = 0;
   startPage = 0;
   endPage = 0;
+  firstBtn = 1;
+  secondBtn = 2;
+  thirdBtn = 3;
   currentPage: number = 1;
 
   ngOnInit() {
@@ -36,9 +39,6 @@ export class SearchResultComponent {
         result => {
           this.searchResult = result;
           
-          this.totalPages = Math.ceil(this.searchResult.numFound / 5);
-          this.endPage = this.totalPages;
-          
           this.prevClasses = {
             "disabled": this.currentPage == 1
           };
@@ -46,10 +46,9 @@ export class SearchResultComponent {
           this.nextClasses = {
             "disabled": this.currentPage == this.endPage 
           };
+          this.setPages();
         });
-    
     });
-    
   }
 
   getCoverUrl(book: Book): string {
@@ -71,5 +70,13 @@ export class SearchResultComponent {
       queryParams: {page: this.currentPage + 1},
       queryParamsHandling: "merge"
     })
+  }
+
+  setPages() {
+    this.totalPages = Math.ceil(this.searchResult.numFound / 5);
+    this.endPage = this.totalPages;
+    this.secondBtn = this.currentPage;
+    this.thirdBtn = Math.min(this.currentPage+1, this.endPage);
+    this.firstBtn = Math.min(this.currentPage-1, this.startPage);
   }
 }

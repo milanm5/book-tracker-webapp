@@ -13,9 +13,9 @@
     <nav>
       <ul class="pagination">
         <li class="page-item" [ngClass]="prevClasses"><button class="page-link" (click)="previousPage()">Previous</button></li>
-        <li class="page-item"><button class="page-link">1</button></li>
-        <li class="page-item"><button class="page-link">2</button></li>
-        <li class="page-item"><button class="page-link">3</button></li>
+        <li class="page-item"><button class="page-link">{{firstBtn}}</button></li>
+        <li class="page-item"><button class="page-link">{{secondBtn}}</button></li>
+        <li class="page-item"><button class="page-link">{{thirdBtn}}</button></li>
         <li class="page-item" [ngClass]="nextClasses"><button class="page-link" (click)="nextPage()">Next</button></li>
       </ul>
     </nav>
